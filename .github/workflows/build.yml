@@ -1,0 +1,24 @@
+on: [push]
+jobs:
+  generate_tile_job:
+    runs-on: ubuntu-latest
+    name: A job to generate vector tiles
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: 'Generate vector tiles as *.mvt'
+        uses: https://github.com/kamataryo/vector-tiles-action
+        id: generate_vector_tiles
+        with:
+          file: ./data/iki.geojson
+          output_to_directory: ./docs/tiles
+
+      - name: test
+        run: ls -la docs && ls -la docs/tiles
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: 'gh-pages'
+          folder: ./docs
