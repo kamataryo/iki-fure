@@ -14,9 +14,6 @@ jobs:
           file: ./data/iki.geojson
           output_to_directory: ./docs/tiles
 
-      - name: test
-        run: ls -la docs && ls -la docs/tiles
-
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
