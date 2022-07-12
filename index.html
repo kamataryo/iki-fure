@@ -15,7 +15,15 @@
 	</style>
 </head>
 <body>
-	<div id="map" data-hash="on"></div>
+	<div
+		id="map"
+		data-zoom="11"
+		data-lat="33.7898"
+		data-lng="129.7218"
+		data-marker="off"
+		data-max-zoom="13.99"
+		data-min-zoom="10"
+		></div>
 	<script src="https://cdn.geolonia.com/v1/embed?geolonia-api-key=YOUR-API-KEY"></script>
 	<script>
 		const map = new window.geolonia.Map('#map')
@@ -25,14 +33,119 @@
 			map.addSource('iki', {
 			type: 'vector',
 			tiles: [tileUrl],
+			attribution: '<a href="https://www.e-stat.go.jp/terms-of-use">政府統計</a>のデータをもとに <a href="https://github.com/kamataryo">kamataryo</a> が作成'
 		})
+
+		const fureFilter = ['in', '触', [
+			'slice',
+			['get', 'S_NAME'],
+			['+', 1, ['index-of', '町', ['get', 'S_NAME']]],
+			['+', 1, ['index-of', '触', ['get', 'S_NAME']]],
+		]]
+		const uraFilter = ['in', '浦', [
+			'slice',
+			['get', 'S_NAME'],
+			['+', 1, ['index-of', '町', ['get', 'S_NAME']]],
+			// ['+', 1, ['index-of', '浦', ['get', 'S_NAME']]],
+		]]
+		const shimaFilter = ['in', '島', [
+			'slice',
+			['get', 'S_NAME'],
+			['+', 1, ['index-of', '町', ['get', 'S_NAME']]],
+			// ['+', 1, ['index-of', '島', ['get', 'S_NAME']]],
+		]]
+
+		// 触
 		map.addLayer({
-			id: 'fure',
+			id: 'fure-fill',
 			type: 'fill',
 			source: 'iki',
 			'source-layer': 'iki',
+			filter: fureFilter,
 			paint: {
-				'fill-color': 'red',
+				'fill-color': 'darkgreen',
+				'fill-opacity': .3,
+			}
+		})
+		map.addLayer({
+			id: 'fure-line',
+			type: 'line',
+			source: 'iki',
+			'source-layer': 'iki',
+			filter: fureFilter,
+			paint: {
+				'line-color': 'darkslategray',
+				'line-opacity': .3,
+			}
+		})
+		map.addLayer({
+			id: 'fure-label',
+			type: 'symbol',
+			source: 'iki',
+			'source-layer': 'iki',
+			filter: fureFilter,
+			layout: {
+				'text-font': ['Noto Sans Regular'],
+				'text-field': fureFilter[2],
+			},
+			paint: {
+				'text-halo-color': 'white',
+				'text-halo-width': .5,
+			}
+		})
+	
+		// 浦
+		map.addLayer({
+			id: 'ura-fill',
+			type: 'fill',
+			source: 'iki',
+			'source-layer': 'iki',
+			filter: uraFilter,
+			paint: {
+				'fill-color': 'coral',
+				'fill-opacity': .3,
+			}
+		})
+		map.addLayer({
+			id: 'ura-line',
+			type: 'line',
+			source: 'iki',
+			'source-layer': 'iki',
+			filter: uraFilter,
+			paint: {
+				'line-color': 'oranged',
+				'line-opacity': .3,
+			}
+		})
+		map.addLayer({
+			id: 'ura-label',
+			type: 'symbol',
+			source: 'iki',
+			'source-layer': 'iki',
+			filter: uraFilter,
+			layout: {
+				'text-font': ['Noto Sans Regular'],
+				'text-field': uraFilter[2],
+			},
+			paint: {
+				'text-halo-color': 'white',
+				'text-halo-width': .5,
+			}
+		})
+		
+		map.addLayer({
+			id: 'shima-label',
+			type: 'symbol',
+			source: 'iki',
+			'source-layer': 'iki',
+			filter: shimaFilter,
+			layout: {
+				'text-font': ['Noto Sans Regular'],
+				'text-field': shimaFilter[2],
+			},
+			paint: {
+				'text-halo-color': 'white',
+				'text-halo-width': .5,
 			}
 		})
 	})
