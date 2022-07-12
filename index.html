@@ -20,8 +20,8 @@
 	<script>
 		const map = new window.geolonia.Map('#map')
 		map.on('load', () => {
-			const base = window.location.origin  + window.location.pathname
-			const tileUrl = base + '/tiles/{z}/{x}/{y}.mvt'
+			const base = window.location.origin + window.location.pathname
+			const tileUrl = base + 'tiles/{z}/{x}/{y}.mvt'
 			map.addSource('iki', {
 			type: 'vector',
 			tiles: [tileUrl],
