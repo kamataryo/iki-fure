@@ -13,7 +13,7 @@ jobs:
         with:
           file: ./data/iki.geojson
           output_to_directory: ./docs/tiles
-          layer_name: iki
+          layer: iki
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
